@@ -10,39 +10,39 @@
 <body>
 
   <div class="keys">
-    <div data-key="65" class="key">
+    <div data-color="#de1d8a" data-key="65" class="key">
       <kbd>A</kbd>
       <span class="sound">clap</span>
     </div>
-    <div data-key="83" class="key">
+    <div data-color="#de1dd1" data-key="83" class="key">
       <kbd>S</kbd>
       <span class="sound">hihat</span>
     </div>
-    <div data-key="68" class="key">
+    <div data-color="#891dde" data-key="68" class="key">
       <kbd>D</kbd>
       <span class="sound">kick</span>
     </div>
-    <div data-key="70" class="key">
+    <div data-color="#3b3bfd" data-key="70" class="key">
       <kbd>F</kbd>
       <span class="sound">openhat</span>
     </div>
-    <div data-key="71" class="key">
+    <div data-color="#1cd7de" data-key="71" class="key">
       <kbd>G</kbd>
       <span class="sound">boom</span>
     </div>
-    <div data-key="72" class="key">
+    <div data-color="#30fb88" data-key="72" class="key">
       <kbd>H</kbd>
       <span class="sound">ride</span>
     </div>
-    <div data-key="74" class="key">
+    <div data-color="#57f32e" data-key="74" class="key">
       <kbd>J</kbd>
       <span class="sound">snare</span>
     </div>
-    <div data-key="75" class="key">
+    <div data-color="#eefb03" data-key="75" class="key">
       <kbd>K</kbd>
       <span class="sound">tom</span>
     </div>
-    <div data-key="76" class="key">
+    <div data-color="#f12c2c" data-key="76" class="key">
       <kbd>L</kbd>
       <span class="sound">tink</span>
     </div>
@@ -59,6 +59,37 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
   <script>
+
+    const html = document.querySelector('html')
+
+    let clrs = ['#333', '#333', '#333']
+
+    const handleKeyDown = (e) => {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+      if (!audio) return
+      // I'm copiyng audo to create nice sound overlapping effect
+      const playAudio = document.createElement('audio')
+      playAudio.src = audio.src
+      playAudio.play()
+      key.classList.add('playing')
+      clrs = [
+        ...clrs.slice(1),
+        key.dataset.color
+      ]
+      // html.style.backgroundColor = key.dataset.color
+      html.style.background = `linear-gradient(169deg, ${clrs.concat(',').slice(0, -1)})`
+    }
+
+    const handleTransitionEnd = (e) => {
+      if (e.propertyName !== 'transform') return
+      e.currentTarget.classList.remove('playing')
+    }
+
+    document
+      .querySelectorAll('.key')
+      .forEach(key => key.addEventListener('transitionend', handleTransitionEnd))
+    window.addEventListener('keydown', handleKeyDown)
 
   </script>
 
