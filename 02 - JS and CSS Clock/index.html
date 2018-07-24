@@ -147,7 +147,7 @@
       }
     }
 
-    const getDateInfo = () => {
+    const getTime = () => {
       const now = new Date()
       return {
         hrs: now.getHours(),
@@ -159,7 +159,7 @@
     let prev
 
     const loop = () => {
-      const now = getDateInfo()
+      const now = getTime()
       const first = !Boolean(prev)
       if (first || prev.sec !== now.sec) moveHand(secondHand, now.sec, 60, first)
       if (first || prev.min !== now.min) moveHand(minHand, now.min, 60, first)
