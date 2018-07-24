@@ -133,37 +133,40 @@
 
     const toRad = deg => deg * Math.PI / 180
 
-    const moveHand = (hand, time, div, needFix) => {
-      const deg = ((time / div) * 360) + 90
-      if (!needFix) {
-        hand.style.transform = `rotate(${deg}deg)`
+    const moveHand = (hand, time, div, noAnim) => {
+      const setDeg = t => hand.style.transform = `rotate(${(t / div) * 360 + 90}deg)`
+      if (noAnim) {
+        setDeg(time)
       } else {
-        const prevDeg = ((-1) / div) * 360
         hand.classList.remove('hand-animation')
         window.requestAnimationFrame(() => {
-          hand.style.transform = `rotate(${prevDeg}deg)`
+          setDeg(time - 1)
           window.requestAnimationFrame(() => {
             hand.classList.add('hand-animation')
-            hand.style.transform = `rotate(${deg}deg)`
+            setDeg(time)
           })
         })
       }
     }
 
-    const loop = () => {
+    const getDateInfo = () => {
       const now = new Date()
+      return {
+        hrs: now.getHours(),
+        min: now.getMinutes(),
+        sec: now.getSeconds(),
+      }
+    }
 
-      const seconds = now.getSeconds()
-      const minutes = now.getMinutes()
-      const hours = now.getHours()
+    let prev
 
-      const isSecondsAt0 = seconds === 0
-      const isMinutesAt0 = minutes === 0
-      const isHoursAt0 = hours === 0
-
-      moveHand(secondHand, seconds, 60, isSecondsAt0)
-      moveHand(minHand, minutes, 60, isSecondsAt0 && isMinutesAt0)
-      moveHand(hourHand, hours, 12, isSecondsAt0 && isMinutesAt0 && isHoursAt0)
+    const loop = () => {
+      const now = getDateInfo()
+      const first = !Boolean(prev)
+      if (first || prev.sec !== now.sec) moveHand(secondHand, now.sec, 60, first)
+      if (first || prev.min !== now.min) moveHand(minHand, now.min, 60, first)
+      if (first || prev.hrs !== now.hrs) moveHand(hourHand, now.hrs, 12, first)
+      prev = now
     }
 
     setInterval(loop, 1000)
