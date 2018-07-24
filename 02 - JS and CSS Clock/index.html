@@ -20,7 +20,7 @@
 
   <style>
     html {
-      background: #018DED url(http://unsplash.it/1500/1000?image=881&blur=50);
+      background: #00d05e;
       background-size: cover;
       font-family: 'helvetica neue';
       text-align: center;
@@ -37,17 +37,27 @@
     }
 
     .clock {
-      width: 30rem;
-      height: 30rem;
-      border: 20px solid white;
+      width: 40rem;
+      height: 40rem;
+      background-color: #fff;
       border-radius: 50%;
       margin: 50px auto;
       position: relative;
-      padding: 2rem;
-      box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1),
-      inset 0 0 0 3px #EFEFEF,
-      inset 0 0 10px black,
-      0 0 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1), 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .clock:after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -10px;
+      margin-left: -10px;
+      background-color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
     }
 
     .clock-face {
@@ -59,16 +69,101 @@
     }
 
     .hand {
-      width: 50%;
+      width: 40%;
+      margin-left: 10%;
       height: 6px;
-      background: black;
+      background: #36def1;
+      border-radius: 8px;
       position: absolute;
       top: 50%;
+      transform: rotate(90deg);
+      transform-origin: 100%;
+    }
+
+    .second-hand {
+      background-color: #f58a8a;
+    }
+
+
+    .hour-hand {
+      height: 8px;
+      width: 32%;
+      margin-left: 18%;
+    }
+
+    .hand-animation {
+      transition: transform cubic-bezier(0.1, 2, 0.5, 1) .2s;
+    }
+
+    .tick {
+      position: absolute;
+      top: 50%;
+      width: 50%;
+      height: 6px;
+      transform-origin: 100%;
+    }
+
+    .tick:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 10px;
+      width: 6px;
+      margin-top: -2px;
+      border-radius: 0 5px 5px 0;
+      background-color: #d0e7f7;
     }
   </style>
 
   <script>
 
+    const clock = document.querySelector('.clock-face')
+    const hourHand = document.querySelector('.hour-hand')
+    const minHand = document.querySelector('.min-hand')
+    const secondHand = document.querySelector('.second-hand')
+
+    Array.from(Array(12)).forEach((_, i) => {
+      const tick = document.createElement('div')
+      tick.classList.add('tick')
+      tick.style.transform = `rotate(${(i / 12) * 360}deg)`
+      clock.appendChild(tick)
+    })
+
+    const toRad = deg => deg * Math.PI / 180
+
+    const moveHand = (hand, time, div) => {
+      const deg = (time / div) * 360
+      const isAtTop = Math.sin(toRad(deg)) === 0
+
+      if (!isAtTop) {
+        hand.style.transform = `rotate(${deg + 90}deg)`
+      } else {
+        const prevDeg = ((-1) / div) * 360
+        hand.classList.remove('hand-animation')
+        window.requestAnimationFrame(() => {
+          hand.style.transform = `rotate(${prevDeg + 90}deg)`
+          window.requestAnimationFrame(() => {
+            hand.classList.add('hand-animation')
+            hand.style.transform = `rotate(${deg + 90}deg)`
+          })
+        })
+      }
+    }
+
+    const loop = () => {
+      const now = new Date()
+      moveHand(secondHand, now.getSeconds(), 60)
+      moveHand(minHand, now.getMinutes(), 60)
+      moveHand(hourHand, now.getHours(), 12)
+    }
+
+    setInterval(loop, 1000)
+    loop()
+    hourHand.classList.add('hand-animation')
+    minHand.classList.add('hand-animation')
+    secondHand.classList.add('hand-animation')
 
   </script>
 </body>
