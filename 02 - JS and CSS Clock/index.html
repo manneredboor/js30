@@ -131,8 +131,6 @@
       clock.appendChild(tick)
     })
 
-    const toRad = deg => deg * Math.PI / 180
-
     const moveHand = (hand, time, div, noAnim) => {
       const setDeg = t => hand.style.transform = `rotate(${(t / div) * 360 + 90}deg)`
       if (noAnim) {
