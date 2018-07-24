@@ -6,4 +6,4 @@ The course grabbed at [https://JavaScript30.com](https://JavaScript30.com)
 
 ### Days:
 
-- [Day 01 — JavaScript Drum Kit](https://manneredboor.github.io/js30/01-Day/)
+- [Day 01 — JavaScript Drum Kit](https://manneredboor.github.io/js30/01%20-%20JavaScript%20Drum%20Kit/)
