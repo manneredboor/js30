@@ -1,9 +1,10 @@
 html {
   box-sizing: border-box;
   background: #ffc600;
-  font-family: 'helvetica neue';
+  font-family: 'helvetica neue', 'Trebuchet MS';
   font-size: 20px;
   font-weight: 200;
+  overflow-y: scroll;
 }
 *,
 *:before,
@@ -17,7 +18,18 @@ input {
 
 .search-form {
   max-width: 400px;
-  margin: 50px auto;
+  margin: 203px auto;
+}
+
+.search-form:after {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #ffc600;
+  height: 100px;
 }
 
 input.search {
@@ -26,9 +38,12 @@ input.search {
   outline: 0;
   border: 10px solid #f7f7f7;
   width: 120%;
-  left: -10%;
   position: relative;
-  top: 10px;
+  position: fixed;
+  width: 600px;
+  top: 100px;
+  left: 50%;
+  margin-left: -300px;
   z-index: 2;
   border-radius: 5px;
   font-size: 40px;

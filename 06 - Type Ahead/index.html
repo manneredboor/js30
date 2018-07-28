@@ -19,6 +19,45 @@
   <script>
     const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+    const input = document.querySelector('.search')
+    const suggestions = document.querySelector('.suggestions')
+
+    let cities = []
+
+    const numberWithCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
+    const wrapHl = (w, s) => {
+      const wi = s.toLowerCase().indexOf(w.toLowerCase())
+      const wl = w.length
+      return wi !== -1
+        ? [s.slice(0, wi), '<span class="hl">', s.slice(wi, wi + wl), '</span>', s.slice(wl)].join('')
+        : s
+    }
+
+    const render = (word) => {
+      const regex = new RegExp(word, 'gi')
+      const html = cities
+        .filter(place => place.city.match(regex) || place.state.match(regex))
+        .map(place => `
+          <li>
+            <span class="name">${wrapHl(word, place.city)}, ${wrapHl(word, place.state)}</span>
+            <span class="population">${numberWithCommas(place.population)}</span>
+          </li>
+        `)
+        .join('')
+      suggestions.innerHTML = html
+      window.scrollTo(0, 0)
+    }
+
+    fetch(endpoint)
+      .then(res => res.json())
+      .then(d => {
+        cities.push(...d)
+        render('')
+      })
+
+    input.addEventListener('keyup', (e) => render(e.currentTarget.value))
+
   </script>
 </body>
 
