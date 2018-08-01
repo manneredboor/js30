@@ -25,6 +25,8 @@
       display: flex;
       align-items: center;
       border-bottom: 1px solid #F1F1F1;
+      user-select: none;
+      cursor: pointer;
     }
 
     .item:last-child {
@@ -59,45 +61,64 @@
 
   -->
   <div class="inbox">
-    <div class="item">
+    <label class="item">
       <input type="checkbox">
       <p>This is an inbox layout.</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Check one item</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Hold down your Shift key</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Check a lower item</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Everything inbetween should also be set to checked</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Try do it without any libraries</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Just regular JavaScript</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Good Luck!</p>
-    </div>
-    <div class="item">
+    </label>
+    <label class="item">
       <input type="checkbox">
       <p>Don't forget to tweet your result!</p>
-    </div>
+    </label>
   </div>
 
   <script>
+    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]')
+    let lastChecked
+    let isShiftPressed
+
+    const handleClick = e => {
+      const el = e.currentTarget
+      if (isShiftPressed) {
+        let inBetween = false
+        checkboxes.forEach(cb => {
+          if (inBetween) cb.checked = el.checked || lastChecked.checked
+          if (cb === el || cb === lastChecked) inBetween = !inBetween
+        })
+      }
+      lastChecked = el
+    }
+
+    document.addEventListener('keydown', e => { if (e.keyCode === 16) { isShiftPressed = true } })
+    document.addEventListener('keyup', e => { if (e.keyCode === 16) { isShiftPressed = false } })
+    checkboxes.forEach(el => el.addEventListener('change', handleClick))
   </script>
 </body>
 
