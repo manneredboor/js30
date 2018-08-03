@@ -7,8 +7,16 @@
   <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
 </head>
 
-<body>
+<body style="text-align: center; font-family: sans-serif">
+  TYPE `KEK`
   <script>
+    const pressed = []
+    const secret = 'kek'
+    document.addEventListener('keyup', e => {
+      pressed.push(e.key)
+      pressed.splice(-secret.length - 1, pressed.length - secret.length)
+      if (pressed.join('').includes(secret)) cornify_add()
+    })
   </script>
 </body>
 
