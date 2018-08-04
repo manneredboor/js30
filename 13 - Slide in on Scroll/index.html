@@ -151,6 +151,25 @@
       };
     }
 
+    const imgs = document.querySelectorAll('.slide-in')
+
+    const handleScroll = e => {
+      imgs.forEach(img => {
+        const slideInAt = (window.scrollY + window.innerHeight) - (img.height / 2)
+        const imgBot = img.offsetTop + img.height
+        const isHalfShown = slideInAt > img.offsetTop
+        const isNotScrolledPast = window.scrollY < imgBot
+        if (isHalfShown && isNotScrolledPast) {
+          img.classList.add('active')
+        } else {
+          img.classList.remove('active')
+        }
+      })
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+
   </script>
 
   <style>
