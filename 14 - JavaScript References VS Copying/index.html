@@ -10,15 +10,22 @@
 
   <script>
     // start with strings, numbers and booleans
+    let age = 24
+    let age2 = age
+    age = 25
+    console.log(age, age2)
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
+    const team1 = players
 
     // You might think we can just do something like this:
+    team1[0] = 'Lux'
 
     // however what happens when we update that array?
+    console.log(players, team1)
 
     // now here is the problem!
 
@@ -27,14 +34,29 @@
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
+    const team2 = players.slice()
 
     // one way
 
     // or create a new array and concat the old one in
+    const team3 = [].concat(players)
 
     // or use the new ES6 Spread
+    const team4 = [...players]
+
+    const team5 = Array.from(players)
 
     // now when we update it, the original one isn't changed
+    team2[0] = 'Lol'
+    team3[1] = 'Lol'
+    team4[2] = 'Lol'
+    team5[3] = 'Lol'
+    console.group('teams')
+    console.log(team2)
+    console.log(team3)
+    console.log(team4)
+    console.log(team5)
+    console.groupEnd('teams')
 
     // The same thing goes for objects, let's say we have a person object
 
@@ -45,12 +67,41 @@
     };
 
     // and think we make a copy:
+    const captain1 = person
+    captain1.age = 60
 
     // how do we take a copy instead?
+    const captain2 = Object.assign({}, person, { age: 40 })
 
     // We will hopefully soon see the object ...spread
+    const captain3 = {
+      ...person,
+      age: 30
+    }
+
+    console.group('captains')
+    console.log(person)
+    console.log(captain1)
+    console.log(captain2)
+    console.log(captain3)
+    console.log(team5)
+    console.groupEnd('captains')
+
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    const obj1 = {
+      kek: {
+        lol: 'arbidol'
+      }
+    }
+
+    const obj2 = JSON.parse(JSON.stringify(obj1))
+    obj2.kek.lol = 'cheburek'
+
+    console.group('nested objects')
+    console.log(obj1)
+    console.log(obj2)
+    console.groupEnd('nested objects')
 
   </script>
 
