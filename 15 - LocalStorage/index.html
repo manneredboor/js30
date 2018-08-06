@@ -51,7 +51,10 @@
     const itemsList = document.querySelector('.plates');
     const checkAllBtn = document.querySelector('.check-all');
     const uncheckAllBtn = document.querySelector('.uncheck-all');
-    let items = JSON.parse(localStorage.getItem('items')) || [];
+    let items = JSON.parse(localStorage.getItem('items')) || [{
+      text: 'Tako',
+      checked: false,
+    }];
 
     const saveItems = () => localStorage.setItem('items', JSON.stringify(items))
 
