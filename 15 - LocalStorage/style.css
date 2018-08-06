@@ -8,6 +8,7 @@ html {
   align-items: center;
   text-align: center;
   font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+  color: #333;
 }
 *,
 *:before,
@@ -45,14 +46,15 @@ h2 {
 }
 
 .plates li {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-weight: 100;
   display: flex;
 }
 
 .plates label {
   flex: 1;
+  padding: 10px 0;
+  user-select: none;
   cursor: pointer;
 }
 
@@ -76,5 +78,25 @@ h2 {
 .add-items input {
   padding: 10px;
   outline: 0;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid #eee;
+}
+
+.add-items input[type='submit'] {
+  cursor: pointer;
+  background-color: #fff;
+  text-transform: uppercase;
+}
+
+.checkers {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkers > div {
+  cursor: pointer;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  text-transform: uppercase;
+  font-size: 14px;
 }
