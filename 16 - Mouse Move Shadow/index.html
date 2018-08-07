@@ -37,6 +37,30 @@
   </style>
 
   <script>
+    const hero = document.querySelector('.hero')
+    const text = document.querySelector('h1')
+    const dist = 400
+
+    const handleMouseMove = e => {
+      const { offsetWidth: width, offsetHeight: height } = hero
+      const { screenX: x, screenY: y } = e
+      const xDist = (x / width * dist) - (dist / 2)
+      const yDist = (y / height * dist) - (dist / 2)
+
+      text.style.textShadow = `
+        ${xDist}px ${yDist}px 0 rgba(255, 0, 255, 0.7),
+        ${xDist * 0.75}px ${yDist * 0.75}px 0 rgba(0, 255, 255, 0.7),
+        ${xDist * 0.5}px ${yDist * 0.5}px 0 rgba(100, 255, 255, 0.7),
+        ${xDist * 0.25}px ${yDist * 0.25}px 0 rgba(255, 100, 100, 0.7),
+
+        ${xDist * -1}px ${yDist * -1}px 0 rgba(100, 100, 255, 0.7),
+        ${xDist * -0.75}px ${yDist * -0.75}px 0 rgba(100, 255, 100, 0.7),
+        ${xDist * -0.5}px ${yDist * -0.5}px 0 rgba(255, 100, 255, 0.7),
+        ${xDist * -0.25}px ${yDist * -0.25}px 0 rgba(255, 255, 100, 0.7)
+      `
+    }
+
+    hero.addEventListener('mousemove', handleMouseMove)
   </script>
 </body>
 
