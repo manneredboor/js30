@@ -184,6 +184,23 @@
     </li>
   </ul>
   <script>
+    const timeNodes = Array.from(document.querySelectorAll('[data-time]'))
+
+    const secsPerHr = 3600
+
+    const seconds = timeNodes.reduce(
+      (total, n) => {
+        const [mins, secs] = n.dataset.time.split(':').map(parseFloat)
+        return total + ((mins * 60) + secs)
+      },
+      0
+    )
+
+    const hours = Math.floor(seconds / secsPerHr)
+    const mins = Math.floor((seconds % secsPerHr) / 60)
+    const secs = (seconds % secsPerHr) % 60
+
+    console.log(hours, mins, secs)
   </script>
 </body>
 
