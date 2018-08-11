@@ -13,8 +13,28 @@
 
   <script>
     window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const rec = new SpeechRecognition()
+    const words = document.querySelector('.words')
+    let p = document.createElement('p')
+    words.appendChild(p)
 
+    rec.addEventListener('result', e => {
+      const t = Array.from(e.results)
+        .map(r => r[0])
+        .map(r => r.transcript)
+        .join('')
 
+      p.textContent = t
+      if (e.results[0].isFinal) {
+        p = document.createElement('p')
+        words.appendChild(p)
+      }
+      if (t.includes('unicorn')) {
+        console.log('🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄')
+      }
+    })
+    rec.addEventListener('end', rec.start)
+    rec.start()
   </script>
 
 
