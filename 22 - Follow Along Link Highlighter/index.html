@@ -52,7 +52,20 @@
   </div>
 
   <script>
-    // 👀👀👀👀👀👀👀👀👀👀👀👀👀👀👀
+    const links = document.querySelectorAll('a')
+    const hl = document.createElement('span')
+    hl.classList.add('highlight')
+    document.body.appendChild(hl)
+
+    const hoverHandler = e => {
+      const rect = e.currentTarget.getBoundingClientRect()
+      console.log(rect.top)
+      hl.style.width = rect.width + 'px'
+      hl.style.height = rect.height + 'px'
+      hl.style.transform = `translate3d(${rect.left + window.scrollX}px, ${rect.top + window.scrollY}px, 0)`
+    }
+
+    links.forEach(l => l.addEventListener('mouseenter', hoverHandler))
   </script>
 </body>
 
