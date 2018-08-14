@@ -31,12 +31,48 @@
   </div>
 
   <script>
-    const msg = new SpeechSynthesisUtterance();
-    let voices = [];
-    const voicesDropdown = document.querySelector('[name="voice"]');
-    const options = document.querySelectorAll('[type="range"], [name="text"]');
-    const speakButton = document.querySelector('#speak');
-    const stopButton = document.querySelector('#stop');
+    const msg = new SpeechSynthesisUtterance()
+    let voices = []
+    const voicesDropdown = document.querySelector('[name="voice"]')
+    const options = document.querySelectorAll('[type="range"], [name="text"]')
+    const speakButton = document.querySelector('#speak')
+    const stopButton = document.querySelector('#stop')
+
+    const populateVoices = e => {
+      voices = e.currentTarget.getVoices()
+      voicesDropdown.innerHTML = voices
+        .map(v => `<option value="${v.name}">${v.name} (${v.lang})</option>`)
+        .join('')
+    }
+
+    const toggle = (startOver = true) => {
+      speechSynthesis.cancel()
+      if (startOver) speechSynthesis.speak(msg)
+    }
+
+    const handleChangeVoice = e => {
+      msg.voice = voices.find(v => v.name === e.currentTarget.value)
+      toggle()
+    }
+
+    const handleChangeOption = el => {
+      msg[el.name] = el.value
+      toggle()
+    }
+
+
+    const handleClickStop = () => {
+
+    }
+
+    speakButton.addEventListener('click', toggle)
+    stopButton.addEventListener('click', () => toggle(false))
+    voicesDropdown.addEventListener('change', handleChangeVoice)
+    speechSynthesis.addEventListener('voiceschanged', populateVoices)
+    options.forEach(o => {
+      handleChangeOption(o)
+      o.addEventListener('change', () => handleChangeOption(o))
+    })
   </script>
 
 </body>
