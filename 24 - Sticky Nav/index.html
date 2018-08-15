@@ -169,6 +169,17 @@
   </div>
 
   <script>
+    const nav = document.getElementById('main')
+    const navTop = nav.offsetTop
+
+    const handleScroll = () => {
+      const isFixed = window.scrollY >= navTop
+      document.body.classList.toggle('fixed-nav', isFixed)
+      document.body.style.paddingTop = isFixed ? (nav.offsetHeight + 'px') : ''
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll()
 
   </script>
 
