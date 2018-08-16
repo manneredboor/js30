@@ -46,7 +46,27 @@
 
   <button></button>
   <script>
+    const divs = document.querySelectorAll('div')
 
+    const logText = e => {
+      console.group('Event')
+      console.log(e.currentTarget.classList.value)
+      console.log(e)
+      console.groupEnd('Event')
+      // e.stopPropagation()
+    }
+
+    divs.forEach(d => d.addEventListener('click', logText, {
+      capture: false
+    }))
+
+    document.querySelector('button').addEventListener(
+      'click',
+      () => console.log('Button Clicked Once'),
+      {
+        once: true
+      }
+    )
   </script>
 </body>
 
