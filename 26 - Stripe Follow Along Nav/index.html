@@ -154,8 +154,6 @@
       opacity: 1;
     }
 
-
-
     .dropdownBackground {
       width: 100px;
       height: 100px;
@@ -235,6 +233,36 @@
   </style>
 
   <script>
+    const lis = document.querySelectorAll('.cool li')
+    const nav = document.querySelector('.top')
+    const bg = document.querySelector('.dropdownBackground')
+
+    const handleMouseEnter = e => {
+      const el = e.currentTarget
+      bg.classList.add('open')
+      el.classList.add('trigger-enter')
+      setTimeout(() => {
+        if (!el.classList.contains('trigger-enter')) return
+        el.classList.add('trigger-enter-active')
+      }, 150)
+
+      const dropdown = el.querySelector('.dropdown')
+      const dropdownRect = dropdown.getBoundingClientRect()
+      const navRect = nav.getBoundingClientRect()
+
+      bg.style.setProperty('width', dropdownRect.width + 'px')
+      bg.style.setProperty('height', dropdownRect.height + 'px')
+      bg.style.setProperty('transform', `translate(${dropdownRect.left - navRect.left}px, ${dropdownRect.top - navRect.top}px)`)
+    }
+
+    const handleMouseLeave = e => {
+      const el = e.currentTarget
+      bg.classList.remove('open')
+      el.classList.remove('trigger-enter', 'trigger-enter-active')
+    }
+
+    lis.forEach(li => li.addEventListener('mouseenter', handleMouseEnter))
+    lis.forEach(li => li.addEventListener('mouseleave', handleMouseLeave))
   </script>
 
 </body>
