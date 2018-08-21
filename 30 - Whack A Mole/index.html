@@ -10,7 +10,7 @@
 
 <body>
 
-  <h2>Hight score <span class="hight-score">0</span></h2>
+  <h2>High score <span class="high-score">0</span></h2>
   <h1>Whack-a-mole! <span class="score">0</span></h1>
   <button class="start">Start!</button>
 
@@ -38,11 +38,11 @@
   <script>
     const holes = document.querySelectorAll('.hole')
     const scoreBoard = document.querySelector('.score')
-    const hightScoreEl = document.querySelector('.hight-score')
+    const highScoreEl = document.querySelector('.high-score')
     const moles = document.querySelectorAll('.mole')
     const startBtn = document.querySelector('.start')
     let score
-    let hightScore = localStorage.getItem('score', score) || 0
+    let highScore = localStorage.getItem('score', score) || 0
 
     const random = (min, max) => Math.round(Math.random() * (max - min) + min)
 
@@ -76,9 +76,9 @@
       setTimeout(() => {
         isPlaying = false
         startBtn.classList.remove('invisible')
-        if (score > hightScore) {
-          hightScore = score
-          hightScoreEl.textContent = score
+        if (score > highScore) {
+          highScore = score
+          highScoreEl.textContent = score
           localStorage.setItem('score', score)
         }
       }, 10000)
@@ -91,7 +91,7 @@
       e.currentTarget.parentNode.classList.remove('up')
     }
 
-    hightScoreEl.textContent = hightScore
+    highScoreEl.textContent = highScore
     startBtn.addEventListener('click', startGame)
     moles.forEach(el => el.addEventListener('mousedown', bonk))
   </script>
